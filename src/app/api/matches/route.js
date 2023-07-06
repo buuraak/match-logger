@@ -4,6 +4,13 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function GET(request) {
-    const matches = await prisma.match.findFirst();
-    return NextResponse.json({data: matches}, {status: 200});
+    let matches;
+    try{
+        matches = await prisma.match.findFirst();
+    } catch (error) {
+        console.error(error);
+    } finally {
+        await prisma.$disconnect();
+        return NextResponse.json({data: matches}, {status: 200});
+    }
 }
