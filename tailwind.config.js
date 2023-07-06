@@ -7,10 +7,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        'courier': ['Courier New', 'Courier', 'monospace'],
+      },
+      colors: {
+        black: '#111729',
+        primary: '#3562E3',
+        secondary: '#F3F5F9',
       },
     },
   },
