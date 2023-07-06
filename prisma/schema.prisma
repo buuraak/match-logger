@@ -1,0 +1,27 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+//Connect met database
+datasource db {
+    provider = "mysql"
+    url = "mysql://root:root@localhost:3306/logger"
+}
+
+//Maak Match tabel aan
+model Match {
+  id         Int     @id @default(autoincrement())
+  goalsHome  Int     @default(0)
+  goalsAway  Int     @default(0)
+  actions    Action[] //Maak relatie aan met Action tabel
+}
+
+//Maak Action tabel aan
+model Action {
+  id        Int     @id @default(autoincrement())
+  match     Match   @relation(fields: [matchId], references: [id]) //Maak foreign key match_id aan
+  matchId   Int
+  action    String
+  timestamp DateTime
+  team      String
+}
