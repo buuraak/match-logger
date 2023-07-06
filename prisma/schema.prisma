@@ -13,6 +13,8 @@ model Match {
   id         Int     @id @default(autoincrement())
   goalsHome  Int     @default(0)
   goalsAway  Int     @default(0)
+  startingTimestamp  DateTime?
+  lastTimestamp      DateTime?
   actions    Action[] //Maak relatie aan met Action tabel
 }
 
