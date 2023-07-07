@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 export async function GET(request) {
     let matches;
     try{
-        matches = await prisma.match.findFirst();
+        matches = await prisma.match.findFirst({
+            include: {
+                actions: true
+            }
+        });
     } catch (error) {
         console.error(error);
     } finally {
