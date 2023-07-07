@@ -1,4 +1,5 @@
-export default function ActionLogger() {
+export default function ActionLogger(props) {
+    const updateMatch = props.updateMatch;
 
     const logHandler = async (e) => {
         let team;
@@ -20,6 +21,7 @@ export default function ActionLogger() {
                         },
                         body: JSON.stringify({ "team": team, "actionType": actionType })
                     })
+                    updateMatch();
                     break;
                 case "card":
                     if (e.target.dataset.card === "yellow") {
@@ -37,6 +39,7 @@ export default function ActionLogger() {
                         },
                         body: JSON.stringify({ "team": team, "card": card, "actionType": actionType })
                     })
+                    updateMatch();
                     break;
                 case "penalty":
                     await fetch('/api/ActionLogger', {
@@ -46,6 +49,7 @@ export default function ActionLogger() {
                         },
                         body: JSON.stringify({ "team": team, "actionType": actionType })
                     })
+                    updateMatch();
                     break;
             }
         } catch (error) {

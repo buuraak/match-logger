@@ -20,9 +20,14 @@ export default function Match() {
         fetchMatch();
     }, []);
 
+    //Deze functie wordt doorgegeven aan de ActionLogger component. Wanneer er een actie wordt gelogd, willen we de match updaten.
+    const updateMatch = () => {
+        fetchMatch();
+    }
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
-            <ActionLogger  />
+            <ActionLogger updateMatch={updateMatch} />
             <MatchDetails actions={match.actions} match={match} />
         </div>
     )
