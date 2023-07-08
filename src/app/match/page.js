@@ -10,7 +10,7 @@ export default function Match() {
         actions: [],
     });
     const fetchMatch = async () => {
-        const response = await fetch('/api/matches');
+        const response = await fetch('/api/getMatches');
         const data = await response.json();
         setMatch(data.data);
     }
