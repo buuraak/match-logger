@@ -1,4 +1,4 @@
-const {prismaClient, PrismaClient} = require('@prisma/client')
+const {PrismaClient} = require('@prisma/client');
 const { matchData } = require('./data.js')
 
 const prisma = new PrismaClient();
@@ -12,7 +12,7 @@ const load = async () => {
     }catch (error) {
         console.error(error);
     } finally {
-        //Als alles is gelukt willen we prisma gaan disconnecten om onnodige connecties te voorkomen
+        //If everything went well, we want to close the database connection as good practice
         await prisma.$disconnect();
     }
 }
