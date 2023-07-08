@@ -11,7 +11,6 @@ export default function Timer(props) {
 
     //When the component mounts we want to calculate which position the timer is in.
     useEffect(() => {
-        console.log(startingTimestamp);
         if(startingTimestamp) {
             const now = new Date();
             const timeElapsed = Math.floor((now - new Date(startingTimestamp)) / 1000);
@@ -59,6 +58,7 @@ export default function Timer(props) {
     }
 
     const formatTime = (time) => { //We want to format the time to a mm:ss format including leading zeros.
+        //padStart will add a leading zero if the string is less than 2 characters.
         const minutes = Math.floor(time / 60).toString().padStart(2, '0');
         const seconds = (time % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
