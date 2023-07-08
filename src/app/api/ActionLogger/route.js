@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../../../../lib/prismaClient";
 
 export async function POST(req) {
     const request = await req.json();
@@ -96,8 +94,9 @@ export async function POST(req) {
         }
     } catch (error) {
         console.log(`Error at: ${actionType}, error: ${error}`);
-        NextResponse.json({ "message": `Error at: ${actionType}, error: ${error}`, "status": 500 })
+        await prisma.$disconnect();
+        return NextResponse.json({ "message": `Error at: ${actionType}, error: ${error}`, "status": 500 })
     }
 
-    NextResponse.json({ "message": `Successfuly logged ${actionType}`, "status": 200 })
+    return NextResponse.json({ "message": `Successfuly logged ${actionType}`, "status": 200 })
 }
