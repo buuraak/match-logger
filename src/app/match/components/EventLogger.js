@@ -14,7 +14,7 @@ export default function ActionLogger(props) {
         try {
             switch (actionType) {
                 case "goal":
-                    await fetch('/api/ActionLogger', {
+                    await fetch('/api/EventLogger', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ export default function ActionLogger(props) {
                         card = "Groene kaart"
                     }
 
-                    await fetch('/api/ActionLogger', {
+                    await fetch('/api/EventLogger', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export default function ActionLogger(props) {
                     updateMatch();
                     break;
                 case "penalty":
-                    await fetch('/api/ActionLogger', {
+                    await fetch('/api/EventLogger', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
