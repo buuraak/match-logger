@@ -1,9 +1,7 @@
 import Timer from "./Timer"
 
 export default function MatchDetails(props) {
-    const match = props.match;
-    const actions = props.actions;
-    const updateMatch = props.updateMatch;
+    const { match, actions, updateMatch } = props;
 
     const deleteAction = async (e) => {
         const id = e.currentTarget.dataset.id;
@@ -23,7 +21,7 @@ export default function MatchDetails(props) {
     return (
         <div className="h-[700px] w-[500px] text-black flex flex-col px-12">
             <h2 className="text-7xl font-extrabold text-center pb-5">{`${match.goalsHome} - ${match.goalsAway}`}</h2>
-            <Timer startingTimestamp={match.startingTimestamp} lastTimestamp={match.lastTimestamp} status={match.status} />
+            <Timer startingTimestamp={match.startingTimestamp} pausedTimestamp={match.pausedTimestamp} />
             <div className="bg-black bg-opacity-5 rounded-xl h-full overflow-scroll">
                 <ul className="font-extrabold pt-6 pl-8 list-none relative">
                     {actions && actions.map((action, index) => {

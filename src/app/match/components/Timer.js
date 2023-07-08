@@ -1,43 +1,67 @@
 "use client"
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+
 
 export default function Timer(props) {
     const [time, setTime] = useState(0);
+    const [timerActive, setTimerActive] = useState(false);
     const intervalRef = useRef();
+    const { startingTimestamp, pausedTimestamp } = props;
+
+    useEffect(() => {
+        console.log(startingTimestamp);
+        if(startingTimestamp) {
+            const now = new Date();
+            const timeElapsed = Math.floor((now - new Date(startingTimestamp)) / 1000);
+            setTime(timeElapsed);
+            setTimerActive(true);
+            startTimer();
+        } else {
+            setTime(pausedTimestamp ?? 0);
+        }
+    }, [startingTimestamp, pausedTimestamp]);
 
     const startTimer = async () => {
-        await fetch("/api/timestamp", {
-            method: "POST",
-            body: JSON.stringify({ timerAction: "start" })
-        })
+        if (timerActive) return;
+        const startingTime = pausedTimestamp ? new Date(new Date().setSeconds(new Date().getSeconds() - pausedTimestamp)) : new Date();
+        if(!props.startingTimestamp) {
+            await fetch("/api/timer", {
+                method: "POST",
+                body: JSON.stringify({ startingTimestamp: startingTime, pausedTimestamp: null, timerAction: "start" })
+            })
+        }
         intervalRef.current = setInterval(() => {
             setTime((prevTime) => prevTime + 1);
         }, 1000);
+        setTimerActive(true);
     };
 
     const stopTimer = async () => {
-        await fetch("/api/timestamp", {
+        if (!timerActive) return;
+        await fetch("/api/timer", {
             method: "POST",
-            body: JSON.stringify({ timerAction: "pause" })
+            body: JSON.stringify({ startingTimestamp: null, pausedTimestamp: time, timerAction: "pause" })
         })
         clearInterval(intervalRef.current);
+        setTimerActive(false);
     };
+
+    const resetTime = async (time) => {
+        await fetch("/api/timer", {
+            method: "POST",
+            body: JSON.stringify({ startingTimestamp: null, pausedTimestamp: null, timerAction: "reset" })
+        })
+        setTime(0);
+        clearInterval(intervalRef.current);
+        setTimerActive(false);
+    }
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60).toString().padStart(2, '0');
         const seconds = (time % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
     };
-
-    const resetTime = async (time) => {
-        await fetch("/api/timestamp", {
-            method: "POST",
-            body: JSON.stringify({ timerAction: "reset" })
-        })
-        setTime(0);
-        clearInterval(intervalRef.current);
-    }
     return (
         <>
             <div className="bg-black h-[90px] py-5 rounded-xl text-white font-courier font-bold flex justify-center items-center text-4xl">

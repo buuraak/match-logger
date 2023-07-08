@@ -9,6 +9,7 @@ export default function Match() {
         goalsAway: 0,
         actions: [],
     });
+    
     const fetchMatch = async () => {
         const response = await fetch('/api/getMatches');
         const data = await response.json();
@@ -20,7 +21,7 @@ export default function Match() {
         fetchMatch();
     }, []);
 
-    //Deze functie wordt doorgegeven aan de ActionLogger component. Wanneer er een actie wordt gelogd, willen we de match updaten.
+    //Deze functie wordt doorgegeven aan de components hier beneden. Wanneer er een actie wordt gelogd, willen we de match updaten.
     const updateMatch = () => {
         fetchMatch();
     }
@@ -28,7 +29,7 @@ export default function Match() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2">
             <ActionLogger updateMatch={updateMatch} />
-            <MatchDetails actions={match.actions} match={match} />
+            <MatchDetails updateMatch={updateMatch} actions={match.actions} match={match} />
         </div>
     )
 }

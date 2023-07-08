@@ -14,7 +14,7 @@ model Match {
   goalsHome  Int     @default(0)
   goalsAway  Int     @default(0)
   startingTimestamp  DateTime?
-  lastTimestamp      DateTime?
+  pausedTimestamp    Int?
   actions    Action[] //Maak relatie aan met Action tabel
 }
 
