@@ -1,4 +1,4 @@
-export default function ActionLogger(props) {
+export default function EventLogger(props) {
     const updateMatch = props.updateMatch;
 
     const logHandler = async (e) => {
