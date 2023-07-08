@@ -2,26 +2,26 @@ generator client {
     provider = "prisma-client-js"
 }
 
-//Connect met database
+//Connect with database
 datasource db {
     provider = "mysql"
     url = env("DB_URL")
 }
 
-//Maak Match tabel aan
+//Create Match table
 model Match {
   id         Int     @id @default(autoincrement())
   goalsHome  Int     @default(0)
   goalsAway  Int     @default(0)
   startingTimestamp  DateTime?
   pausedTimestamp    Int?
-  actions    Action[] //Maak relatie aan met Action tabel
+  actions    Action[] //Create relation with Action table
 }
 
-//Maak Action tabel aan
+//Create Action table
 model Action {
   id        Int     @id @default(autoincrement())
-  match     Match   @relation(fields: [matchId], references: [id]) //Maak foreign key match_id aan
+  match     Match   @relation(fields: [matchId], references: [id]) //Assign matchId as foreign key
   matchId   Int
   action    String
   timestamp DateTime

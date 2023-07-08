@@ -5,7 +5,6 @@ const matchData = [
         startingTimestamp: null,
         pausedTimestamp: null,
     },
-    // Add more match data if needed
 ];
 
 module.exports = {
