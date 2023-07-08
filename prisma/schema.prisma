@@ -5,7 +5,7 @@ generator client {
 //Connect met database
 datasource db {
     provider = "mysql"
-    url = "mysql://root:root@localhost:3306/logger"
+    url = env("DB_URL")
 }
 
 //Maak Match tabel aan
