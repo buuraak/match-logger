@@ -1,6 +1,5 @@
 export default function EventLogger(props) {
     const updateMatch = props.updateMatch;
-
     const logHandler = async (e) => {
         let team;
         let card;
@@ -12,6 +11,7 @@ export default function EventLogger(props) {
             team = "away"
         }
         try {
+            //Based on the type of action we have we want to send different data to the server.
             switch (actionType) {
                 case "goal":
                     await fetch('/api/EventLogger', {

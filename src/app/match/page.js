@@ -4,6 +4,7 @@ import MatchDetails from "./components/MatchDetails"
 import { useEffect, useState } from "react"
 
 export default function Match() {
+    //Create temporary state for the match. This will be updated when the user logs an action.
     const [match, setMatch] = useState({
         goalsHome: 0,
         goalsAway: 0,
@@ -16,12 +17,12 @@ export default function Match() {
         setMatch(data.data);
     }
 
-    //We willen de matches maar 1x ophalen tijdens een render. Zonder een useEffect krijgen we een oneindige loop van requests. 
+    //We only want to fetch the matches once during a render. Without a useEffect we will get an infinite loop of requests.
     useEffect(() => {
         fetchMatch();
     }, []);
 
-    //Deze functie wordt doorgegeven aan de components hier beneden. Wanneer er een actie wordt gelogd, willen we de match updaten.
+    //This function will be passed to the components. When the user logs or deletes an event, the match will be updated.
     const updateMatch = () => {
         fetchMatch();
     }

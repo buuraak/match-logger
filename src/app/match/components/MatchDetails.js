@@ -26,6 +26,7 @@ export default function MatchDetails(props) {
                 <ul className="font-extrabold pt-6 pl-8 list-none relative">
                     {actions && actions.map((action, index) => {
                         let classes;
+                        // Only apply the listicle marker if there is more than 1 event
                         if (actions.length > 1) {
                             classes = 'after:content-[\'\'] after:absolute after:left-0 after:top-0 after:border-l-2 after:border-color-[#CCD5E0] after:ml-[7px] after:h-full after:z-[-1] first:after:top-1/2 last:after:-top-1/2'
                         }

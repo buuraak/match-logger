@@ -9,6 +9,7 @@ export default function Timer(props) {
     const intervalRef = useRef();
     const { startingTimestamp, pausedTimestamp } = props;
 
+    //When the component mounts we want to calculate which position the timer is in.
     useEffect(() => {
         console.log(startingTimestamp);
         if(startingTimestamp) {
@@ -23,23 +24,23 @@ export default function Timer(props) {
     }, [startingTimestamp, pausedTimestamp]);
 
     const startTimer = async () => {
-        if (timerActive) return;
-        const startingTime = pausedTimestamp ? new Date(new Date().setSeconds(new Date().getSeconds() - pausedTimestamp)) : new Date();
-        if(!props.startingTimestamp) {
+        if (timerActive) return; //Prevent multiple timers from being created.
+        const startingTime = pausedTimestamp ? new Date(new Date().setSeconds(new Date().getSeconds() - pausedTimestamp)) : new Date(); //If the timer was paused we want to start from the paused time.
+        if(!props.startingTimestamp) { //If there already is a starting timestamp we don't want to create a new one.
             await fetch("/api/timer", {
                 method: "POST",
                 body: JSON.stringify({ startingTimestamp: startingTime, pausedTimestamp: null, timerAction: "start" })
             })
         }
-        intervalRef.current = setInterval(() => {
+        intervalRef.current = setInterval(() => { //We want to update the timer every second.
             setTime((prevTime) => prevTime + 1);
         }, 1000);
         setTimerActive(true);
     };
 
     const stopTimer = async () => {
-        if (!timerActive) return;
-        await fetch("/api/timer", {
+        if (!timerActive) return; //Prevent multiple timers from being created.
+        await fetch("/api/timer", { //We want to save the paused time to the database.
             method: "POST",
             body: JSON.stringify({ startingTimestamp: null, pausedTimestamp: time, timerAction: "pause" })
         })
@@ -47,7 +48,7 @@ export default function Timer(props) {
         setTimerActive(false);
     };
 
-    const resetTime = async (time) => {
+    const resetTime = async () => {
         await fetch("/api/timer", {
             method: "POST",
             body: JSON.stringify({ startingTimestamp: null, pausedTimestamp: null, timerAction: "reset" })
@@ -57,7 +58,7 @@ export default function Timer(props) {
         setTimerActive(false);
     }
 
-    const formatTime = (time) => {
+    const formatTime = (time) => { //We want to format the time to a mm:ss format including leading zeros.
         const minutes = Math.floor(time / 60).toString().padStart(2, '0');
         const seconds = (time % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
